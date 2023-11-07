@@ -10,9 +10,6 @@ class FoodType(BaseModel):
 
 
 class Food(BaseModel):
-    #def __init__(self, **data: Any):
-    #    super().__init__(**data)
-
     food_type_id: int
     name: str
     ingredient: str

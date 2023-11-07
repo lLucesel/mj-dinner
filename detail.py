@@ -1,12 +1,10 @@
 import MySQLdb
-from database import MySQLClientConnector
-from pymysql import OperationalError
-from pydantic import BaseModel
+from MySQLdb.cursors import DictCursor
 
 
 class FoodDetail:
-    def __init__(self, db_name, user, password, host, port):
-        self.connector = MySQLClientConnector(db_name, user, password, host, port)
+    def __init__(self, db: DictCursor):
+        self.connector = db
 
     def food_name(self):
         try:
@@ -16,23 +14,21 @@ class FoodDetail:
             """
             food_names = self.connector.fetchall(food_name)
             return food_names
-        except OperationalError:
-            return "No data"
+
         except MySQLdb.Error as e:
             return f"Error name: {e}"
 
     def side_name(self):
         try:
-            self.connector.commit()
             side_name = """
                 SELECT name
                 FROM food JOIN food_type ON food.food_type_id = food_type.id
                 WHERE food_type = '반찬' 
             """
-            side_names = self.connector.fetchall(side_name)
+            self.connector.execute(side_name)
+            side_names = self.connector.fetchall()
             return side_names
-        except OperationalError:
-            return "No data"
+
         except MySQLdb.Error as e:
             return f"Error name: {e}"
 
@@ -43,10 +39,10 @@ class FoodDetail:
             FROM food JOIN food_type ON food.food_type_id = food_type.id
             WHERE food_type = '국' 
             """
-            soup_names = self.connector.fetchall(soup_name)
+            self.connector.execute(soup_name)
+            soup_names = self.connector.fetchall()
             return soup_names
-        except OperationalError:
-            return "No data"
+
         except MySQLdb.Error as e:
             return f"Error name: {e}"
 
@@ -57,10 +53,10 @@ class FoodDetail:
             FROM food JOIN food_type ON food.food_type_id = food_type.id
             WHERE food_type = '반찬' and name = %s
             """
-            side_details = self.connector.fetchall(side_detail, (side_name,))
+            self.connector.execute(side_detail, (side_name,))
+            side_details = self.connector.fetchall()
             return side_details
-        except OperationalError:
-            return "No data"
+
         except MySQLdb.Error as e:
             return f"Error detail: {e}"
 
@@ -71,10 +67,10 @@ class FoodDetail:
             FROM food JOIN food_type ON food.food_type_id = food_type.id
             WHERE food_type = '국' and name = %s
             """
-            soup_details = self.connector.fetchall(soup_detail, (soup_name,))
+            self.connector.execute(soup_detail, (soup_name,))
+            soup_details = self.connector.fetchall()
             return soup_details
-        except OperationalError:
-            return "No data"
+
         except MySQLdb.Error as e:
             return f"Error detail: {e}"
 
@@ -85,10 +81,10 @@ class FoodDetail:
             FROM food JOIN food_type ON food.food_type_id = food_type.id
             WHERE food_type = '반찬' and name = %s
             """
-            side_nutrients = self.connector.fetchall(side_nutrient, (side_name,))
+            self.connector.execute(side_nutrient, (side_name,))
+            side_nutrients = self.connector.fetchall()
             return side_nutrients
-        except OperationalError:
-            return "No data"
+
         except MySQLdb.Error as e:
             return f"Error nutrient: {e}"
 
@@ -99,10 +95,10 @@ class FoodDetail:
             FROM food JOIN food_type ON food.food_type_id = food_type.id
             WHERE food_type = '국' and name = %s
             """
-            soup_nutrients = self.connector.fetchall(soup_nutrient, (soup_name,))
+            self.connector.execute(soup_nutrient, (soup_name,))
+            soup_nutrients = self.connector.fetchall()
             return soup_nutrients
-        except OperationalError:
-            return "No data"
+
         except MySQLdb.Error as e:
             return f"Error nutrient: {e}"
 
@@ -113,10 +109,10 @@ class FoodDetail:
             FROM food JOIN food_type ON food.food_type_id = food_type.id
             WHERE food_type = '반찬'
             """
-            _side_diet = self.connector.fetchall(side_diet)
+            self.connector.execute(side_diet)
+            _side_diet = self.connector.fetchall()
             return _side_diet
-        except OperationalError:
-            return "No data"
+
         except MySQLdb.Error as e:
             return f"Error nutrient: {e}"
 
@@ -127,10 +123,10 @@ class FoodDetail:
             FROM food JOIN food_type ON food.food_type_id = food_type.id
             WHERE food_type = '국'
             """
-            _soup_diet = self.connector.fetchall(soup_diet)
+            self.connector.execute(soup_diet)
+            _soup_diet = self.connector.fetchall()
             return _soup_diet
-        except OperationalError:
-            return "No data"
+
         except MySQLdb.Error as e:
             return f"Error nutrient: {e}"
 
