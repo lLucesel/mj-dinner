@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Dinner Lotto</title>
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div style="font-size:4vh;" class="card-header">
+            오늘의 메뉴
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md">
+                    <div>
+                        반찬: {{ side_name }}
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div>
+                        국: {{ soup_name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form>
+            <span>
+                &nbsp;&nbsp;&nbsp;<button name="data" onclick="getData()">뽑기</button>
+            </span>
+        </form>
+        &nbsp;
+    </div>
+</div>
+
+    <!-- 그림 하나 넣기 -->
+{% endblock %}

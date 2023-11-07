@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block head %}
+<title xmlns="http://www.w3.org/1999/html">recipe</title>
+  {{ super() }}
+{% endblock %}
+{% block content %}
+&nbsp;
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <div class="col-md">
+        <label>{{ side_name | safe }}</label>
+        <form>
+          <span>
+            <!-- 편집 페이지로 가기 -->
+            <button onclick="add_list()" class="btn btn-primary">수정하기</button>
+          </span>
+        </form>
+        <!-- <form> -->
+          <!-- 삭제하기 -->
+          <!-- <button onclick="delete_side('{{ side_name | safe }}')" class="btn btn-danger">삭제하기</button> -->
+        <form method="post" action="/side">
+          <input class="btn btn-danger" type="submit" name="_method" value="delete"/>
+          <input type="hidden" name="method_type" value="delete"/>
+        </form>
+      </div>
+    </div>
+    <div class="card-body">
+      {% for side_detail_group in side_detail %}
+      <div class="row">
+        <div class="col-md">
+          <div class="card">
+            <div class="card-header">
+            주재료
+            </div>
+            <div style="font-size:2.5vh" class="card-body">
+              {{ side_detail_group["ingredient"] | safe }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card">
+            <div class="card-header">
+              양념
+            </div>
+            <div style="font-size:2.5vh" class="card-body">
+              {{ side_detail_group["spice"] | safe }}
+            </div>
+          </div>
+        </div>
+      </div>
+      &nbsp;
+      <div class="card">
+        <div class="card-header">
+          조리법
+        </div>
+        <div style="font-size:2.5vh" class="card-body">
+          {{ side_detail_group["recipe"] | safe }}
+        </div>
+      </div>
+      {% endfor %}
+      &nbsp;
+      <div class="row">
+        {% for side_nutrient_group in side_nutrient %}
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              칼로리 (cal)
+            </div>
+            <div class="card-body">
+              {{ side_nutrient_group["calorie"] | safe }}cal
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              탄수화물 (g)
+            </div>
+            <div class="card-body">
+              {{ side_nutrient_group["carbohydrate"] | safe }}g
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              단백질 (g)
+            </div>
+            <div class="card-body">
+              {{ side_nutrient_group["protein"] | safe }}g
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-header">
+              비타민 (g)
+            </div>
+            <div class="card-body">
+              {{ side_nutrient_group["vitamin"] | safe }}g
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+&nbsp;
+<!-- <script>
+  function delete_side(side_name) {
+    fetch(`/side/${side_name}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (response.status === 200) {
+          window.location.reload();
+        } else {
+          console.error('삭제에 실패했습니다.');
+        }
+      })
+      .catch(error => {
+        console.error('요청 보내기 실패: ', error);
+      });
+  }
+</script> -->
+{% endblock %}

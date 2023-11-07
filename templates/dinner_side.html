@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>dinner_side</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1/0">
+    <style>
+        body {
+        border:2px solid #000000;
+        border-color:white;
+        background-color:#81F79F;
+        padding:1vw;
+        margin-top:1vw;
+        margin-bottom:1vw;
+        margin-left:30vh;
+        margin-right:30vh;
+        }
+        .top {
+        border: 1.2px solid #000000;
+        background-color:lightgray;
+        font-size:5vw;
+        font-weight:bold;
+        text-align:center;
+        padding:2.5vw;
+        }
+        .lotto {
+        background-color:#f2f2f2;
+        border:1.2px solid #000000;
+        display: flex;
+		justify-content: center;
+		align-items: center;
+        font:black;
+        font-size:2.4vw;
+        font-style:italic;
+        padding:0;
+        text-align:center;
+        margin-bottom:0.3em;
+        height:6.5vw;
+        }
+        .menu   {
+        border-top:1.2px solid #000000;
+        border-left:1.2px solid #000000;
+        }
+        .menu-title {
+        display:grid;
+        background-color:lightgray;
+        grid-template-columns:repeat(1, 1fr);
+        grid-gap:0;
+		height: 10vh;
+		font-size:3vw;
+        }
+        .menu-title div {
+        border-right:1.2px solid #000000;
+        border-bottom:1.2px solid #000000;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        }
+        .menu-content {
+        display:grid;
+        background-color:lightgray;
+        justify-content: center;
+        grid-template-columns:repeat(5, 1fr);
+        grid-template-rows:repeat(5, 1fr);
+        grid-gap:0;
+		height: 50vh;
+		font-size:1.5vw;
+        }
+        .menu-content div {
+        border-right:1.2px solid #000000;
+        border-bottom:1.2px solid #000000;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        }
+        .off {
+        background-color:#f2f2f2;
+        border:1.2px solid #000000;
+        display:flex;
+        font:black;
+        font-size:1.5vw;
+        font-style:italic;
+        justify-content: center;
+		align-items: center;
+        padding:1vw;
+        text-align:center;
+        }
+        .rm-underline{
+        text-decoration:none;
+        color:black;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="margin-top:0.6rem; margin-bottom:1rem;">
+        <div class="top">
+            <a class="rm-underline" href="./dinner_html_main.html">저녁메뉴 복불복</a>
+        </div>
+    </h1>
+    <div class="lotto">
+        <h4>
+            <a class="rm-underline" href="">Ⅰ </a><오늘의 메뉴 :><a class="rm-underline" href=""> Ⅱ</a>
+        </h4>
+    </div>
+<h1>반찬 리스트</h1>
+    <div class="menu-content">
+        {% for food in food_list %}
+            <div>
+                <p class="rm-underline">{{ food.name }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

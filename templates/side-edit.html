@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block head %}
+<title>recipe</title>
+  {{ super() }}
+{% endblock %}
+{% block content %}
+&nbsp;
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <div class="col-md">
+        <label>{{ side_name | safe }}</label>
+        <form>
+          <span>
+            <!-- 편집 페이지로 가기 -->
+            <button onclick="add_list()" class="btn btn-primary">확인</button>
+          </span>
+        </form>
+        <form>
+          <!-- 뒤로가기 -->
+          <button onclick="delete_side('{{ side_name | safe }}')" class="btn btn-danger">취소</button>
+        </form>
+      </div>
+    </div>
+    <div class="card-body">
+      {% for side_detail_group in side_detail %}
+      <div class="row">
+        <div class="col-md">
+          <div class="card">
+            <div class="card-header">
+            주재료
+            </div>
+            <div style="font-size:2.5vh" class="card-body">
+              <textarea class="form-control" name="ingredient"
+                              required>{{side_detail_group["ingredient"]}}
+                    </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card">
+            <div class="card-header">
+              양념
+            </div>
+            <div style="font-size:2.5vh" class="card-body">
+              <textarea class="form-control" name="spice"
+                              required>{{ side_detail_group["spice"] | safe }}
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      &nbsp;
+      <div class="card">
+        <div class="card-header">
+          조리법
+        </div>
+        <div style="font-size:2.5vh" class="card-body">
+          <textarea class="form-control" name="recipe"
+                              required>{{ side_detail_group["recipe"] | safe }}
+          </textarea>
+        </div>
+      </div>
+      {% endfor %}
+      &nbsp;
+      <div class="row">
+        {% for side_nutrient_group in side_nutrient %}
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              칼로리 (cal)
+            </div>
+            <div class="card-body">
+              <textarea class="form-control" name="calorie"
+                              required>{{ side_nutrient_group["calorie"] | safe }}cal
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              탄수화물 (g)
+            </div>
+            <div class="card-body">
+              <textarea class="form-control" name="carbohydrate"
+                              required>{{ side_nutrient_group["carbohydrate"] | safe }}g
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              단백질 (g)
+            </div>
+            <div class="card-body">
+              <textarea class="form-control" name="protein"
+                              required>{{ side_nutrient_group["protein"] | safe }}g
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-header">
+              비타민 (g)
+            </div>
+            <div class="card-body">
+              <textarea class="form-control" name="vitamin"
+                              required>{{ side_nutrient_group["vitamin"] | safe }}g
+              </textarea>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+&nbsp;
+<script>
+  function delete_side(side_name) {
+    fetch(`/side/${side_name}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (response.status === 200) {
+          window.location.reload();
+        } else {
+          console.error('삭제에 실패했습니다.');
+        }
+      })
+      .catch(error => {
+        console.error('요청 보내기 실패: ', error);
+      });
+  }
+</script>
+{% endblock %}

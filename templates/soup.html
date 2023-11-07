@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block head %}
+<title>soup</title>
+  {{ super() }}
+{% endblock %}
+{% block content %}
+<p></p>
+<div class="container">
+    <div class="row">
+        {% for soup_name_group in soup_name %}
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="font-size:2.5vh; text-align: center;">
+                            <a class="rm-underline" href="/soup/{{ soup_name_group.name }}">
+                                {{ soup_name_group.name }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                &nbsp;
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
