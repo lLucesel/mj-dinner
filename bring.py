@@ -1,6 +1,5 @@
 import MySQLdb
-from detail import FoodDetail
-from database import MySQLClientConnector
+from routers.database import MySQLClientConnector
 from pymysql import OperationalError
 
 

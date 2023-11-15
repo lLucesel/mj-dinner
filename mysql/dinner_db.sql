@@ -18,6 +18,12 @@ create table food(
 	vitamin         INT(5) comment '단위는 g'
 );
 
+create table community(
+    id              INT unsigned auto_increment PRIMARY KEY,
+    title           VARCHAR(20),
+    content         LONGTEXT
+);
+
 insert into food_type(food_type)
 values
 ('반찬'),

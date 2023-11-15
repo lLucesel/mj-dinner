@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block head %}
+<title xmlns="http://www.w3.org/1999/html">recipe</title>
+  {{ super() }}
+{% endblock %}
+{% block content %}
+<br>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <div style="font-size:2vw" class="col-md">
+        <label>{{ food_name | safe }}</label>
+      </div>
+    </div>
+      <div class="card-body">
+        <form method="POST">
+      {% for food_detail_group in food_detail %}
+      <div class="row">
+        <div class="col-md">
+          <div class="card">
+            <div class="card-header">
+            주재료
+            </div>
+            <div style="font-size:2.5vh" class="card-body">
+              {{ food_detail_group["ingredient"] | safe }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card">
+            <div class="card-header">
+              양념
+            </div>
+            <div style="font-size:2.5vh" class="card-body">
+              {{ food_detail_group["spice"] | safe }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="card">
+        <div class="card-header">
+          조리법
+        </div>
+        <div style="font-size:2.5vh" class="card-body">
+          {{ food_detail_group["recipe"] | safe }}
+        </div>
+      </div>
+      {% endfor %}
+      <br>
+      <div class="row">
+        {% for food_nutrient_group in food_nutrient %}
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              칼로리 (cal)
+            </div>
+            <div class="card-body">
+              {{ food_nutrient_group["calorie"] | safe }}cal
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              탄수화물 (g)
+            </div>
+            <div class="card-body">
+              {{ food_nutrient_group["carbohydrate"] | safe }}g
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              단백질 (g)
+            </div>
+            <div class="card-body">
+              {{ food_nutrient_group["protein"] | safe }}g
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-header">
+              비타민 (g)
+            </div>
+            <div class="card-body">
+              {{ food_nutrient_group["vitamin"] | safe }}g
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+        <br>
+        </form>
+    </div>
+  </div>
+</div>
+<br>
+{% endblock %}

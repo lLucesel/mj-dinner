@@ -1,25 +1,23 @@
-import random
 import MySQLdb
-from database import MySQLClientConnector
-from detail import FoodDetail
-from choice import FoodChoice
-from pymysql import OperationalError
+from MySQLdb.cursors import DictCursor
+from routers.choice import FoodChoice
+from routers.detail import FoodDetail
 
 
+# 식단짜기에서만 사용
 class FoodDiet:
-    def __init__(self, db_name, user, password, host, port):
-        self.connector = MySQLClientConnector(db_name, user, password, host, port)
-        self.food_detail = FoodDetail(db_name, user, password, host, port)
-        self.food_choice = FoodChoice(db_name, user, password, host, port)
+    def __init__(self, db: DictCursor):
+        self.food_detail = FoodDetail(db)
+        self.food_choice = FoodChoice(db)
         self.diet_plans = []
 
     def diet_plan(self):
         # 7 미만일 경우 반복
         while len(self.diet_plans) < 7:
             _diet_set = self.diet_set()
-            #if self.valid_diet_set(_diet_set):
+            # if self.valid_diet_set(_diet_set):
             self.diet_plans.append(_diet_set)
-        return self.diet_plans, self.close_connection()
+        return self.diet_plans
 
     def diet_set(self):
         try:
@@ -41,18 +39,5 @@ class FoodDiet:
                 # 안 만족하면 _diet_set으로 돌아가기
                 else:
                     return _diet_set
-        except OperationalError:
-            return "No data"
         except MySQLdb.Error as e:
             return f"Error detail: {e}"
-
-    #def valid_diet_set(self, diet_set):
-    #    #todo set 바꾸자
-    #    diet_names = set(diet["name"] for diet in self.diet_plans)
-    #    for food in diet_set:
-    #        if food["name"] in diet_names:
-    #            return False
-    #    return True
-
-    def close_connection(self):
-        self.connector.close()

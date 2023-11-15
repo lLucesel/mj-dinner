@@ -1,8 +1,125 @@
 {% extends "base.html" %}
 {% block head %}
-<title>edit</title>
+<title xmlns="http://www.w3.org/1999/html">recipe</title>
   {{ super() }}
 {% endblock %}
 {% block content %}
-
+<br>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <div style="font-size:2vw" class="col-md">
+        {{ soup_name | safe }}
+      </div>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% for soup_detail_group in soup_detail %}
+        <div class="row">
+          <div class="col-md">
+            <div class="card">
+              <div class="card-header">
+              주재료
+              </div>
+              <div style="font-size:2.5vh" class="card-body; form-group;">
+                <textarea class="form-control" rows="3" name="ingredient" required>{{ soup_detail_group["ingredient"] | safe }}</textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="card">
+              <div class="card-header">
+                양념
+              </div>
+              <div style="font-size:2.5vh" class="card-body; form-group;">
+                <textarea class="form-control" rows="3" name="spice" required>{{ soup_detail_group["spice"] | safe }}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-header">
+            조리법
+          </div>
+          <div style="font-size:2.5vh" class="card-body; form-group;">
+            <textarea class="form-control" rows="5" name="recipe" required>{{ soup_detail_group["recipe"] | safe }}</textarea>
+          </div>
+        </div>
+        {% endfor %}
+        <br>
+        <div class="row">
+          {% for soup_nutrient_group in soup_nutrient %}
+          <div class="col-md-3">
+            <div class="card">
+              <div class="card-header">
+                칼로리 (cal)
+              </div>
+              <div class="card-body; form-group;">
+                <input type="text" class="form-control" name="calorie" required value={{soup_nutrient_group["calorie"]}}>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card">
+              <div class="card-header">
+                탄수화물 (g)
+              </div>
+              <div class="card-body; form-group;">
+                <input type="text" class="form-control" name="carbohydrate" required value={{soup_nutrient_group["carbohydrate"]}}>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card">
+              <div class="card-header">
+                단백질 (g)
+              </div>
+              <div class="card-body; form-group;">
+                <input type="text" class="form-control" name="protein" required value={{soup_nutrient_group["protein"]}}>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="card">
+              <div class="card-header">
+                비타민 (g)
+              </div>
+              <div class="card-body; form-group;">
+                <input type="text" class="form-control" name="protein" required value={{soup_nutrient_group["vitamin"]}}>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <div>
+            <br>
+            <button onclick="edit_soup('{{ soup_name | safe }}')" class="btn btn-primary">완료</button>
+            <a href="/soup/{{soup_name}}" class="btn btn-info">취소</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<br>
+<script>
+function edit_soup(soup_name) {
+    if (confirm("정말로 수정하시겠습니까?")) {
+      fetch(`/soup/${soup_name}/edit`, {
+        method: "POST",
+      })
+        .then((response) => {
+          if (response.status === 302) {
+            alert("잘가~");
+            window.location.href = `/soup/${soup_name}`;
+          } else {
+            alert("메뉴 수정 중 오류가 발생했습니다.");
+          }
+        })
+        .catch((error) => {
+          console.error("요소 수정 중 오류 발생: " + error);
+        });
+    }
+  }
+</script>
 {% endblock %}

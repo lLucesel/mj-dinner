@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block head %}
+<title xmlns="http://www.w3.org/1999/html">recipe</title>
+  {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div style="font-size:2vw" class="col-md-11">
+                    <label>전체 글 목록</label>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+             <form method="POST">
+                <div class="row">
+                    <div class="col-md">
+                        <div class="card">
+                            <div class="card-header; form-group;">
+                                <input type="text" id="title" name="title" required value>
+                            </div>
+                            <div class="card-body; form-group;">
+                                <textarea id="content" name="content" required></textarea><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </form>
+            <div class="col-md-4 text-right">
+                <input type="submit" value="작성 완료">
+            </div>
+        <br>
+        </div>
+    </div>
+</div>
+{% endblock %}

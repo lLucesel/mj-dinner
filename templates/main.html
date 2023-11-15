@@ -12,20 +12,30 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md">
-                    <div>
-                        반찬: {{ side_name }}
+                    <div class="card">
+                        <div style="font-size:3vh" class="card-header">
+                            반찬
+                        </div>
+                        <div style="font-size:2.5vh" class="card-body">
+                            {{ side_name }}
+                        </div>
                     </div>
                 </div>
                 <div class="col-md">
-                    <div>
-                        국: {{ soup_name }}
+                    <div class="card">
+                        <div style="font-size:3vh" class="card-header">
+                            국
+                        </div>
+                        <div style="font-size:2.5vh" class="card-body">
+                            {{ soup_name }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <form>
             <span>
-                &nbsp;&nbsp;&nbsp;<button name="data" onclick="getData()">뽑기</button>
+                &nbsp;&nbsp;&nbsp;<button name="data" onclick="getData()" class="btn btn-primary">뽑기</button>
             </span>
         </form>
         &nbsp;

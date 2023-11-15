@@ -1,6 +1,6 @@
 from routers.database import MySQLClientConnector
 
-db_name = "dinner"
+db_name = "users"
 user = "admin_mj"
 password = "77gundam77"
 host = "mj.caletbhkxfd6.ap-northeast-2.rds.amazonaws.com"

@@ -15,12 +15,12 @@
         <label>food_type_id</label>
         <input type="text" class="form-control" name="food_type_id" required>
     </div>
-    &nbsp;
+   <br>
     <div class="form-group">
         <label>이름</label>
         <input type="text" class="form-control" name="name" required>
     </div>
-    &nbsp;
+   <br>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -35,12 +35,12 @@
             </div>
         </div>
     </div>
-    &nbsp;
+   <br>
     <div class="form-group">
         <label>조리법</label>
         <textarea class="form-control" rows="5" name="recipe" required></textarea>
     </div>
-    &nbsp;
+   <br>
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
@@ -69,11 +69,34 @@
     </div>
    <br>
     <form>
-        <button type="submit" class="btn btn-primary">저장하기</button>
+        <button onclick="regist()" class="btn btn-primary">등록하기</button>
     </form>
 </form>
 
         </div>
     </div>
 </div>
+<script>
+  function regist() {
+    if (confirm("정말로 등록하시겠습니까?")) {
+      fetch(`/regist`, {
+        method: "POST",
+      })
+        .then((response) => {
+          if (response.status === 201) {
+            alert("다녀오셨어요~");
+            window.location.href = "/regist";
+          } else {
+            alert("메뉴 등록 중 오류가 발생했습니다.");
+          }
+        })
+        .catch((error) => {
+          console.error("요소 등록 중 오류 발생: " + error);
+        });
+    }
+    else {
+    console.log("사용자가 등록을 취소했습니다.");
+    }
+  }
+</script>
 {% endblock %}
