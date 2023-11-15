@@ -4,12 +4,14 @@ from fastapi.templating import Jinja2Templates
 from mysqlclient_pool import ConnectionPool
 from controller.page.base import page_router
 from controller.rest.base import rest_router
+from controller.auth.base import auth_router
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 app.include_router(page_router)
 app.include_router(rest_router)
+#app.include_router(auth_router)
 
 
 @app.on_event("startup")

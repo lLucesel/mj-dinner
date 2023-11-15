@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 
 class FoodType(BaseModel):
-    id: int
     food_type: str
 
 
@@ -32,10 +31,19 @@ class UserLogin(BaseModel):
     password: str
 
 
-class Community(BaseModel):
+class CommunityCreate(BaseModel):
     title: str
     content: str
 
 
-class Comment(BaseModel):
-    text: str
+class CommunityUpdate(BaseModel):
+    title: str
+    content: str
+
+
+class CommentCreate(BaseModel):
+    content: str
+
+
+class CommentUpdate(BaseModel):
+    content: str

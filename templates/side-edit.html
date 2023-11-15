@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="card-body">
-      <form method="POST">
+      <form method="POST" class="post-form">
         {% for side_detail_group in side_detail %}
         <div class="row">
           <div class="col-md">
@@ -93,7 +93,7 @@
           </div>
           <div>
             <br>
-            <button onclick="edit_side('{{ side_name | safe }}')" class="btn btn-primary">완료</button>
+            <button type="submit" class="btn btn-primary">완료</button>
             <a href="/side/{{side_name}}" class="btn btn-info">취소</a>
           </div>
         </div>
@@ -102,24 +102,4 @@
   </div>
 </div>
 <br>
-<script>
-function edit_side(side_name) {
-    if (confirm("정말로 수정하시겠습니까?")) {
-      fetch(`/side/${side_name}/edit`, {
-        method: "POST",
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            alert("안녕히가세요~");
-            window.location.href = `/side/${side_name}`;
-          } else {
-            alert("메뉴 수정 중 오류가 발생했습니다.");
-          }
-        })
-        .catch((error) => {
-          console.error("요소 수정 중 오류 발생: " + error);
-        });
-    }
-  }
-</script>
 {% endblock %}
