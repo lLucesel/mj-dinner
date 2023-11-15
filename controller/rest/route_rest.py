@@ -151,21 +151,13 @@ async def update_side_recipe(request: Request, side_name: str,
         calorie = %s, carbohydrate = %s, protein = %s, vitamin = %s
         WHERE name = %s and food_type = '반찬'
         """
-        _food = models.Food
-        _food.ingredient = ingredient
-        _food.spice = spice
-        _food.recipe = recipe
-        _food.calorie = calorie
-        _food.carbohydrate = carbohydrate
-        _food.protein = protein
-        _food.vitamin = vitamin
-        _new = (_food.ingredient, _food.spice, _food.recipe,
-                _food.calorie, _food.carbohydrate, _food.protein, _food.vitamin)
+        _new = (ingredient, spice, recipe,
+                calorie, carbohydrate, protein, vitamin,
+                side_name)
         cursor.execute(_update, _new)
         db.commit()
-        # cursor.close()
 
-        return RedirectResponse(url=f"/side/{side_name}", status_code=status.HTTP_302_FOUND)
+        return RedirectResponse(url=f"/side/{side_name}", status_code=status.HTTP_200_OK)
 
 
 @router.post("/soup/{soup_name}/edit")
@@ -187,9 +179,9 @@ async def update_soup_recipe(request: Request, soup_name: str,
         WHERE name = %s and food_type = '반찬'
         """
         _new = (ingredient, spice, recipe,
-                calorie, carbohydrate, protein, vitamin)
+                calorie, carbohydrate, protein, vitamin,
+                soup_name)
         cursor.execute(_update, _new)
         db.commit()
-        # cursor.close()
 
-        return RedirectResponse(url=f"/soup/{soup_name}", status_code=status.HTTP_302_FOUND)
+        return RedirectResponse(url=f"/soup/{soup_name}", status_code=status.HTTP_200_OK)

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
-<Title>register</Title>
+<Title>add</Title>
     {{ super() }}
 {% endblock %}
 {% block content %}
@@ -69,7 +69,7 @@
     </div>
    <br>
     <form>
-        <button onclick="regist()" class="btn btn-primary">등록하기</button>
+        <button onclick="add()" class="btn btn-primary">등록하기</button>
     </form>
 </form>
 
@@ -77,15 +77,15 @@
     </div>
 </div>
 <script>
-  function regist() {
+  function add() {
     if (confirm("정말로 등록하시겠습니까?")) {
-      fetch(`/regist`, {
+      fetch(`/add`, {
         method: "POST",
       })
         .then((response) => {
           if (response.status === 201) {
             alert("다녀오셨어요~");
-            window.location.href = "/regist";
+            window.location.href = "/add";
           } else {
             alert("메뉴 등록 중 오류가 발생했습니다.");
           }

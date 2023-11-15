@@ -18,12 +18,18 @@ class Food(BaseModel):
 
 
 class UsersSign(BaseModel):
-    nickname: str
+    user_id: str
     password: str
+    email: str
 
 
 class UsersUnsign(BaseModel):
     user_id: int
+
+
+class UserLogin(BaseModel):
+    user_id: str
+    password: str
 
 
 class Community(BaseModel):

@@ -125,25 +125,25 @@ async def diet(request: Request):
 
 
 # 등록 페이지 불러오기
-@router.get("/regist")
-async def regist(request: Request):
+@router.get("/add")
+async def add(request: Request):
     return (templates.TemplateResponse
             ("add-food.html", {"request": request}))
 
 
 # 입력 값 등록하기
-@router.post("/regist", response_class=HTMLResponse)
-async def regist(request: Request,
-                 food_type_id: int = Form(...),
-                 name: str = Form(...),
-                 ingredient: str = Form(...),
-                 spice: str = Form(...),
-                 recipe: str = Form(...),
-                 calorie: int = Form(...),
-                 carbohydrate: int = Form(...),
-                 protein: int = Form(...),
-                 vitamin: int = Form(...)
-                 ):
+@router.post("/add", response_class=HTMLResponse)
+async def add(request: Request,
+              food_type_id: int = Form(...),
+              name: str = Form(...),
+              ingredient: str = Form(...),
+              spice: str = Form(...),
+              recipe: str = Form(...),
+              calorie: int = Form(...),
+              carbohydrate: int = Form(...),
+              protein: int = Form(...),
+              vitamin: int = Form(...)
+              ):
     with request.app.state.pool.fetch(cursor_type=DictCursor) as cursor:
         new = """
         INSERT INTO food (food_type_id, name, ingredient, spice, recipe,
@@ -168,7 +168,7 @@ async def regist(request: Request,
         # db.close()
 
         # 임마 왜 not found로 가냐
-        return RedirectResponse(url="/regist", status_code=status.HTTP_201_CREATED)
+        return RedirectResponse(url="/add", status_code=status.HTTP_201_CREATED)
 
 
 # 검색기능 여기서 이상 생겨서 국만 안나오는듯

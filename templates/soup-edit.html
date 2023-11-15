@@ -21,7 +21,7 @@
               <div class="card-header">
               주재료
               </div>
-              <div style="font-size:2.5vh" class="card-body; form-group;">
+              <div style="font-size:2.5vh" class="card-body form-group">
                 <textarea class="form-control" rows="3" name="ingredient" required>{{ soup_detail_group["ingredient"] | safe }}</textarea>
               </div>
             </div>
@@ -31,7 +31,7 @@
               <div class="card-header">
                 양념
               </div>
-              <div style="font-size:2.5vh" class="card-body; form-group;">
+              <div style="font-size:2.5vh" class="card-body form-group">
                 <textarea class="form-control" rows="3" name="spice" required>{{ soup_detail_group["spice"] | safe }}</textarea>
               </div>
             </div>
@@ -42,7 +42,7 @@
           <div class="card-header">
             조리법
           </div>
-          <div style="font-size:2.5vh" class="card-body; form-group;">
+          <div style="font-size:2.5vh" class="card-body form-group">
             <textarea class="form-control" rows="5" name="recipe" required>{{ soup_detail_group["recipe"] | safe }}</textarea>
           </div>
         </div>
@@ -55,7 +55,7 @@
               <div class="card-header">
                 칼로리 (cal)
               </div>
-              <div class="card-body; form-group;">
+              <div class="card-body form-group">
                 <input type="text" class="form-control" name="calorie" required value={{soup_nutrient_group["calorie"]}}>
               </div>
             </div>
@@ -65,7 +65,7 @@
               <div class="card-header">
                 탄수화물 (g)
               </div>
-              <div class="card-body; form-group;">
+              <div class="card-body form-group">
                 <input type="text" class="form-control" name="carbohydrate" required value={{soup_nutrient_group["carbohydrate"]}}>
               </div>
             </div>
@@ -75,7 +75,7 @@
               <div class="card-header">
                 단백질 (g)
               </div>
-              <div class="card-body; form-group;">
+              <div class="card-body form-group">
                 <input type="text" class="form-control" name="protein" required value={{soup_nutrient_group["protein"]}}>
               </div>
             </div>
@@ -85,8 +85,8 @@
               <div class="card-header">
                 비타민 (g)
               </div>
-              <div class="card-body; form-group;">
-                <input type="text" class="form-control" name="protein" required value={{soup_nutrient_group["vitamin"]}}>
+              <div class="card-body form-group">
+                <input type="text" class="form-control" name="vitamin" required value={{soup_nutrient_group["vitamin"]}}>
               </div>
             </div>
             {% endfor %}
@@ -109,8 +109,8 @@ function edit_soup(soup_name) {
         method: "POST",
       })
         .then((response) => {
-          if (response.status === 302) {
-            alert("잘가~");
+          if (response.status === 200) {
+            alert("안녕히가세요~");
             window.location.href = `/soup/${soup_name}`;
           } else {
             alert("메뉴 수정 중 오류가 발생했습니다.");
