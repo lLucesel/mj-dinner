@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>Memo</title>
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div style="font-size:2vw" class="col-md-11">
+                        <label>Todo list</label>
+                    </div>
+                    <form class="col-md-1 text-right" method="POST">
+                        <button type="submit" class="btn btn-success">작성</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 5%" scope="col">Number</th>
+                            <th class="text-center" style="width: 80%" scope="col">Info</th>
+                            <th class="text-center" style="width: 15%" scope="col">#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for todo in todos %}
+                        <tr {% if todo.complete %}class="completed"{% endif %}>
+                            <td class="text-center">{{ loop.index }}</td>
+                            <td class="text-center" style="{% if todo.complete %}text-decoration: line-through;{% endif %}">
+                                {{ todo.content }}
+                            </td>
+                            <td class="text-center">
+                                {% if todo.complete %}
+                                    <button onclick="window.location.href='/todo/undo/{{ todo.id }}'"
+                                            type="button" class="btn btn-secondary">Undo</button>
+                                {% else %}
+                                    <button onclick="window.location.href='/todo/complete/{{ todo.id }}'"
+                                            type="button" class="btn btn-primary">완료</button>
+                                {% endif %}
+                                <button onclick="delete_todo({{ todo.id }})"
+                                        class="btn btn-danger">삭제</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="content" name="content"
+                               required placeholder="할 일을 입력해주세요(최대 50자까지 가능)">
+                    </div>
+                    <br>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</div>
+<script>
+  function delete_todo(id) {
+    if (confirm("정말로 삭제하시겠습니까?")) {
+      fetch(`/todo/delete/${id}`, {
+        method: "POST",
+      })
+        .then((response) => {
+          if (response.status === 204) {
+            alert("잘가~");
+            window.location.href = "/todo";
+          } else {
+            alert("Todo 삭제 중 오류가 발생하였습니다..");
+          }
+        })
+        .catch((error) => {
+          console.error("요소 삭제 중 오류 발생: " + error);
+        });
+    }
+    else {
+    console.log("사용자가 삭제를 취소했습니다.");
+    window.location.href = "/todo";
+    }
+  }
+</script>
+{% endblock %}

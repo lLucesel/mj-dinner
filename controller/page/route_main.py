@@ -1,4 +1,5 @@
-import models
+from starlette.staticfiles import StaticFiles
+from models import Food, FoodType, Todo
 from starlette.responses import HTMLResponse
 from db.db_conn import db
 from starlette import status
@@ -12,8 +13,6 @@ from starlette.templating import Jinja2Templates
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
-
-posts = []
 
 
 @router.get("/")
@@ -150,28 +149,27 @@ async def add(request: Request,
         calorie, carbohydrate, protein, vitamin)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        new_add = models.Food
-        new_add.food_type_id = food_type_id
-        new_add.name = name
-        new_add.ingredient = ingredient
-        new_add.spice = spice
-        new_add.recipe = recipe
-        new_add.calorie = calorie
-        new_add.carbohydrate = carbohydrate
-        new_add.protein = protein
-        new_add.vitamin = vitamin
-        _new = (new_add.food_type_id,
-                new_add.name, new_add.ingredient, new_add.spice, new_add.recipe,
-                new_add.calorie, new_add.carbohydrate, new_add.protein, new_add.vitamin)
+        # new_add = models.Food
+        # new_add.food_type_id = food_type_id
+        # new_add.name = name
+        # new_add.ingredient = ingredient
+        # new_add.spice = spice
+        # new_add.recipe = recipe
+        # new_add.calorie = calorie
+        # new_add.carbohydrate = carbohydrate
+        # new_add.protein = protein
+        # new_add.vitamin = vitamin
+        _new = (food_type_id,
+                name, ingredient, spice, recipe,
+                calorie, carbohydrate, protein, vitamin)
         cursor.execute(new, _new)
         db.commit()
         # db.close()
 
         # 임마 왜 not found로 가냐
-        return RedirectResponse(url="/add", status_code=status.HTTP_201_CREATED)
+        return RedirectResponse(url="/", status_code=status.HTTP_201_CREATED)
 
 
-# 검색기능 여기서 이상 생겨서 국만 안나오는듯
 @router.get("/food")
 async def food(request: Request, food_name: str = None):
     with request.app.state.pool.fetch(cursor_type=DictCursor) as cursor:
@@ -201,20 +199,68 @@ async def food_recipe(request: Request, food_name: str):
         )
 
 
-# 메인 페이지
-@router.get("/community", response_class=HTMLResponse)
-async def read(request: Request):
-    return templates.TemplateResponse("community.html", {"request": request, "posts": posts})
+@router.get("/todo", response_class=HTMLResponse)
+async def todo(request: Request):
+    with request.app.state.pool.fetch(cursor_type=DictCursor) as cursor:
+        _food_detail = FoodDetail(cursor)
+        _todo = _food_detail.todo()
+
+    return templates.TemplateResponse("todo.html", {"request": request, "todos": _todo})
 
 
-@router.get("/community/post", response_class=HTMLResponse)
-async def read_post(request: Request):
-    return templates.TemplateResponse("post.html", {"request": request})
+@router.post("/todo", response_class=HTMLResponse)
+async def _todo_add(request: Request, _todo: Todo):
+    with request.app.state.pool.fetch(cursor_type=DictCursor) as cursor:
+        _add_todo = """
+        INSERT INTO todo (content, complete)
+        VALUES (%s, false)
+        """
+        cursor.execute(_add_todo, (_todo.content,))
+        db.commit()
+
+    return RedirectResponse(url="/todo", status_code=status.HTTP_201_CREATED)
 
 
-@router.post("/community/post", response_class=HTMLResponse)
-async def post(request: Request, title: str = Form(...), content: str = Form(...)):
-    # 작성된 글을 리스트에 추가
-    posts.append({"title": title, "content": content})
-    # 작성 후에는 커뮤니티 글 목록 페이지로 리다이렉션
-    return RedirectResponse(url="/community", status_code=303)
+@router.post("/todo/delete/{id}", response_class=HTMLResponse)
+async def todo_delete(request: Request, id: int):
+    with request.app.state.pool.fetch(cursor_type=DictCursor) as cursor:
+        _delete = """
+        DELETE FROM todo
+        WHERE id = %s
+        """
+        cursor.execute(_delete, (id,))
+        db.commit()
+        # db.close()
+
+    return RedirectResponse(url="/todo", status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/todo/complete/{todo_id}", response_class=HTMLResponse)
+async def todo_complete(request: Request, todo_id: int):
+    with request.app.state.pool.fetch(cursor_type=DictCursor) as cursor:
+        _food_detail = FoodDetail(cursor)
+        _todos = _food_detail.todo()
+
+        for __todo in _todos:
+            if __todo["id"] == todo_id:
+                new_complete = not __todo["complete"]
+                db.execute(f"UPDATE todo SET complete = {int(new_complete)} WHERE id = {todo_id}")
+                db.commit()
+
+    return RedirectResponse(url="/todo")
+
+
+@router.get("/todo/undo/{todo_id}", response_class=HTMLResponse)
+async def todo_undo(request: Request, todo_id: int):
+    with request.app.state.pool.fetch(cursor_type=DictCursor) as cursor:
+        _food_detail = FoodDetail(cursor)
+        _todos = _food_detail.todo()
+
+        for __todo in _todos:
+            if __todo["id"] == todo_id:
+                new_complete = not __todo["complete"]
+                db.execute(f"UPDATE todo SET complete = {int(new_complete)} WHERE id = {todo_id}")
+                db.commit()
+
+    return RedirectResponse(url="/todo")
+

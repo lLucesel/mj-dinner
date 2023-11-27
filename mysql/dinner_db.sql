@@ -18,31 +18,11 @@ create table food(
 	vitamin         INT(5) comment '단위는 g'
 );
 
-CREATE TABLE users (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password_hash VARCHAR(100) NOT NULL,
-    email VARCHAR(60) NOT NULL
-);
-
-CREATE TABLE communitys (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(30) NOT NULL,
-    content LONGTEXT NOT NULL,
-    user_id INT UNSIGNED NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
-CREATE TABLE comments (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    content TEXT NOT NULL,
-    user_id INT UNSIGNED NOT NULL,
-    post_id INT UNSIGNED NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (post_id) REFERENCES communitys(id)
-);
+create table todo(
+    id      INT unsigned auto_increment PRIMARY KEY,
+    content VARCHAR(50),
+    complete TINYINT DEFAULT NULL
+    );
 
 insert into food_type(food_type)
 values

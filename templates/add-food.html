@@ -10,69 +10,66 @@
             새로운 음식
         </div>
         <div class="card-body">
-            <form method="POST">
-    <div class="form-group">
-        <label>food_type_id</label>
-        <input type="text" class="form-control" name="food_type_id" required>
-    </div>
-   <br>
-    <div class="form-group">
-        <label>이름</label>
-        <input type="text" class="form-control" name="name" required>
-    </div>
-   <br>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>주재료</label>
-                <textarea class="form-control" rows="3" name="ingredient" required></textarea>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>양념</label>
-                <textarea class="form-control" rows="3" name="spice" required></textarea>
-            </div>
-        </div>
-    </div>
-   <br>
-    <div class="form-group">
-        <label>조리법</label>
-        <textarea class="form-control" rows="5" name="recipe" required></textarea>
-    </div>
-   <br>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>칼로리 (cal)</label>
-                <input type="text" class="form-control" name="calorie" required>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>탄수화물 (g)</label>
-                <input type="text" class="form-control" name="carbohydrate" required>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>단백질 (g)</label>
-                <input type="text" class="form-control" name="protein" required>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>비타민 (g)</label>
-                <input type="text" class="form-control" name="vitamin" required>
-            </div>
-        </div>
-    </div>
-   <br>
-    <form>
-        <button onclick="add()" class="btn btn-primary">등록하기</button>
-    </form>
-</form>
-
+            <form action="/add" method="POST">
+                <div class="form-group">
+                    <label>반찬은 1, 국은 2를 입력해 주세요</label>
+                    <input type="text" class="form-control" name="food_type_id" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>이름</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>주재료</label>
+                            <textarea class="form-control" rows="3" name="ingredient" required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>양념</label>
+                            <textarea class="form-control" rows="3" name="spice" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>조리법</label>
+                    <textarea class="form-control" rows="5" name="recipe" required></textarea>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>칼로리 (cal)</label>
+                            <input type="text" class="form-control" name="calorie" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>탄수화물 (g)</label>
+                            <input type="text" class="form-control" name="carbohydrate" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>단백질 (g)</label>
+                            <input type="text" class="form-control" name="protein" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>비타민 (g)</label>
+                            <input type="text" class="form-control" name="vitamin" required>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button onclick="add()" class="btn btn-primary">등록하기</button>
+            </form>
         </div>
     </div>
 </div>
@@ -85,17 +82,19 @@
         .then((response) => {
           if (response.status === 201) {
             alert("다녀오셨어요~");
-            window.location.href = "/add";
+            window.location.href = "/";
           } else {
             alert("메뉴 등록 중 오류가 발생했습니다.");
           }
         })
         .catch((error) => {
           console.error("요소 등록 중 오류 발생: " + error);
+          windows.location.href = "/add";
         });
     }
     else {
     console.log("사용자가 등록을 취소했습니다.");
+    window.location.href = "/add";
     }
   }
 </script>

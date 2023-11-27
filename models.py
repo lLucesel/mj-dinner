@@ -16,34 +16,5 @@ class Food(BaseModel):
     vitamin: int
 
 
-class UsersSign(BaseModel):
-    user_id: str
-    password: str
-    email: str
-
-
-class UsersUnsign(BaseModel):
-    user_id: int
-
-
-class UserLogin(BaseModel):
-    user_id: str
-    password: str
-
-
-class CommunityCreate(BaseModel):
-    title: str
-    content: str
-
-
-class CommunityUpdate(BaseModel):
-    title: str
-    content: str
-
-
-class CommentCreate(BaseModel):
-    content: str
-
-
-class CommentUpdate(BaseModel):
+class Todo(BaseModel):
     content: str

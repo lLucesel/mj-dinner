@@ -163,5 +163,41 @@ class FoodDetail:
         except MySQLdb.Error as e:
             return f"Error nutrient: {e}"
 
+    def todo(self):
+        try:
+            _todo = """
+            SELECT id, content, complete
+            FROM todo
+            """
+            self.connector.execute(_todo)
+            __todo = self.connector.fetchall()
+            return __todo
+        except MySQLdb.Error as e:
+            return f"Error todo: {e}"
+
+    def add_todo(self, content: str):
+        try:
+            _add_todo = """
+            INSERT INTO todo (content, complete)
+            VALUES (%s, false)
+            """
+            self.connector.execute(_add_todo, (content,))
+            __add_todo = self.connector.fetchall()
+            return f"Todo '{content}' added successfully"
+        except MySQLdb.Error as e:
+            return f"Error add_todo: {e}"
+
+    def delete_todo(self, id: int):
+        try:
+            _delete_todo = """
+            DELETE FROM todo
+            WHERE id = %s
+            """
+            self.connector.execute(_delete_todo, (id,))
+            __delete_todo = self.connector.fetchall()
+            return f"Todo {id} deleted successfully"
+        except MySQLdb.Error as e:
+            return f"Error delete todo: {e}"
+
     def close_connection(self):
         self.connector.close()
