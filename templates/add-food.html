@@ -10,10 +10,12 @@
             새로운 음식
         </div>
         <div class="card-body">
-            <form action="/add" method="POST">
-                <div class="form-group">
-                    <label>반찬은 1, 국은 2를 입력해 주세요</label>
-                    <input type="text" class="form-control" name="food_type_id" required>
+                <div style="width: 33.3%;" class="form-group">
+                    <select class="form-control" name="food_type_id" required>
+                        <option value="select">※ 반찬과 국, 둘 중 하나를 선택해 주세요&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼</option>
+                        <option value="1">반찬</option>
+                        <option value="2">국</option>
+                    </select>
                 </div>
                 <br>
                 <div class="form-group">
@@ -69,24 +71,35 @@
                 </div>
                 <br>
                 <button onclick="add()" class="btn btn-primary">등록하기</button>
-            </form>
         </div>
     </div>
 </div>
 <script>
   function add() {
     if (confirm("정말로 등록하시겠습니까?")) {
+    const formData = new FormData();
+        formData.append('food_type_id', document.querySelector('select[name="food_type_id"]').value);
+        formData.append('name', document.querySelector('input[name="name"]').value);
+        formData.append('ingredient', document.querySelector('textarea[name="ingredient"]').value);
+        formData.append('spice', document.querySelector('textarea[name="spice"]').value);
+        formData.append('recipe', document.querySelector('textarea[name="recipe"]').value);
+        formData.append('calorie', document.querySelector('input[name="calorie"]').value);
+        formData.append('carbohydrate', document.querySelector('input[name="carbohydrate"]').value);
+        formData.append('protein', document.querySelector('input[name="protein"]').value);
+        formData.append('vitamin', document.querySelector('input[name="vitamin"]').value);
+
       fetch(`/add`, {
         method: "POST",
+        body: formData,
       })
-        .then((response) => {
-          if (response.status === 201) {
-            alert("다녀오셨어요~");
-            window.location.href = "/";
-          } else {
-            alert("메뉴 등록 중 오류가 발생했습니다.");
-          }
-        })
+      .then((response) => {
+            if (response.status === 204) {
+              alert("잘가~");
+              window.location.href = `/add`;
+            } else {
+              alert("다시 입력하기~");
+            }
+          })
         .catch((error) => {
           console.error("요소 등록 중 오류 발생: " + error);
           windows.location.href = "/add";
@@ -94,7 +107,7 @@
     }
     else {
     console.log("사용자가 등록을 취소했습니다.");
-    window.location.href = "/add";
+    window.location.href = window.location.href;
     }
   }
 </script>

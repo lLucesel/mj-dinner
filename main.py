@@ -1,4 +1,5 @@
 import uvicorn
+from starlette.staticfiles import StaticFiles
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 from mysqlclient_pool import ConnectionPool
@@ -7,6 +8,8 @@ from controller.rest.base import rest_router
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/templates", StaticFiles(directory="templates"), name="templates")
 
 app.include_router(page_router)
 app.include_router(rest_router)

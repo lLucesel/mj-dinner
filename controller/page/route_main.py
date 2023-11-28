@@ -1,4 +1,6 @@
 from starlette.staticfiles import StaticFiles
+from starlette.status import HTTP_302_FOUND
+
 from models import Food, FoodType, Todo
 from starlette.responses import HTMLResponse
 from db.db_conn import db
@@ -7,7 +9,7 @@ from routers.choice import FoodChoice
 from routers.detail import FoodDetail
 from routers.diet import FoodDiet
 from MySQLdb.cursors import DictCursor
-from fastapi import APIRouter, Request, Form
+from fastapi import APIRouter, Request, Form, File, UploadFile, Depends
 from fastapi.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
 
@@ -166,9 +168,8 @@ async def add(request: Request,
         db.commit()
         # db.close()
 
-        # 임마 왜 not found로 가냐
-        return RedirectResponse(url="/", status_code=status.HTTP_201_CREATED)
-
+        # return templates.TemplateResponse(name="/add-food.html", context={"request": request})
+        return RedirectResponse('/add', status_code=status.HTTP_204_NO_CONTENT)
 
 @router.get("/food")
 async def food(request: Request, food_name: str = None):
@@ -208,17 +209,19 @@ async def todo(request: Request):
     return templates.TemplateResponse("todo.html", {"request": request, "todos": _todo})
 
 
-@router.post("/todo", response_class=HTMLResponse)
-async def _todo_add(request: Request, _todo: Todo):
+@router.post("/todo/add", response_class=HTMLResponse)
+async def _todo_add(request: Request, todo: Todo = Depends(Todo.as_form)):
     with request.app.state.pool.fetch(cursor_type=DictCursor) as cursor:
         _add_todo = """
         INSERT INTO todo (content, complete)
         VALUES (%s, false)
         """
-        cursor.execute(_add_todo, (_todo.content,))
+        cursor.execute(_add_todo, (todo.content,))
         db.commit()
 
-    return RedirectResponse(url="/todo", status_code=status.HTTP_201_CREATED)
+    return RedirectResponse(
+        '/todo', status_code=HTTP_302_FOUND
+    )
 
 
 @router.post("/todo/delete/{id}", response_class=HTMLResponse)
@@ -263,4 +266,3 @@ async def todo_undo(request: Request, todo_id: int):
                 db.commit()
 
     return RedirectResponse(url="/todo")
-

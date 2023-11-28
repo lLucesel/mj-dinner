@@ -6,53 +6,57 @@
 {% block content %}
 <div class="container">
     <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div style="font-size:2vw" class="col-md-11">
-                        <label>Todo list</label>
-                    </div>
-                    <form class="col-md-1 text-right" method="POST">
-                        <button type="submit" class="btn btn-success">작성</button>
-                    </form>
+        <div class="card-header">
+            <div class="row">
+                <div style="font-size:2vw" class="col-md-11">
+                    <label>Todo list</label>
                 </div>
             </div>
-            <div class="card-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th class="text-center" style="width: 5%" scope="col">Number</th>
-                            <th class="text-center" style="width: 80%" scope="col">Info</th>
-                            <th class="text-center" style="width: 15%" scope="col">#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for todo in todos %}
-                        <tr {% if todo.complete %}class="completed"{% endif %}>
-                            <td class="text-center">{{ loop.index }}</td>
-                            <td class="text-center" style="{% if todo.complete %}text-decoration: line-through;{% endif %}">
-                                {{ todo.content }}
-                            </td>
-                            <td class="text-center">
-                                {% if todo.complete %}
-                                    <button onclick="window.location.href='/todo/undo/{{ todo.id }}'"
-                                            type="button" class="btn btn-secondary">Undo</button>
-                                {% else %}
-                                    <button onclick="window.location.href='/todo/complete/{{ todo.id }}'"
-                                            type="button" class="btn btn-primary">완료</button>
-                                {% endif %}
-                                <button onclick="delete_todo({{ todo.id }})"
-                                        class="btn btn-danger">삭제</button>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    <div class="form-group">
+        </div>
+        <div class="card-body">
+            <form action="/todo/add" method="POST">
+                <div class="row">
+                    <div style="width: 86.5%" class="form-group">
                         <input type="text" class="form-control" id="content" name="content"
                                required placeholder="할 일을 입력해주세요(최대 50자까지 가능)">
                     </div>
-                    <br>
-                    </tbody>
-                </table>
-            </div>
+                    <div style="width: 10%" class="text-center">
+                        <button type="submit" class="btn btn-success">작성</button>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-hover">
+                <thead>
+                <tr class="text-center">
+                    <th style="width: 5%" scope="col">Number</th>
+                    <th style="width: 80%" scope="col">Info</th>
+                    <th style="width: 15%" scope="col">#</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for todo in todos %}
+                <tr {% if todo.complete %}class="completed"{% endif %}>
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="text-center" style="{% if todo.complete %}text-decoration: line-through;{% endif %}">
+                        {{ todo.content }}
+                    </td>
+                    <td class="text-center">
+                        {% if todo.complete %}
+                        <button onclick="window.location.href='/todo/undo/{{ todo.id }}'"
+                                type="button" class="btn btn-secondary">Undo</button>
+                        {% else %}
+                        <button onclick="window.location.href='/todo/complete/{{ todo.id }}'"
+                                type="button" class="btn btn-primary">완료</button>
+                        {% endif %}
+                        <button onclick="delete_todo({{ todo.id }})"
+                                class="btn btn-danger">삭제</button>
+                    </td>
+                </tr>
+                {% endfor %}
+                <br>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <script>

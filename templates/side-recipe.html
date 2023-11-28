@@ -13,7 +13,6 @@
       </div>
     </div>
       <div class="card-body">
-        <form method="POST">
           {% for side_detail_group in side_detail %}
           <div class="row">
             <div class="col-md">
@@ -22,7 +21,7 @@
                 주재료
                 </div>
                 <div style="font-size:2.5vh" class="card-body">
-                  {{ side_detail_group["ingredient"] | safe }}
+                  <pre>{{ side_detail_group["ingredient"] | safe }}</pre>
                 </div>
               </div>
             </div>
@@ -32,7 +31,7 @@
                   양념
                 </div>
                 <div style="font-size:2.5vh" class="card-body">
-                  {{ side_detail_group["spice"] | safe }}
+                  <pre>{{ side_detail_group["spice"] | safe }}</pre>
                 </div>
               </div>
             </div>
@@ -43,7 +42,7 @@
               조리법
             </div>
             <div style="font-size:2.5vh" class="card-body">
-              {{ side_detail_group["recipe"] | safe }}
+              <pre>{{ side_detail_group["recipe"] | safe }}</pre>
             </div>
           </div>
           {% endfor %}
@@ -97,7 +96,6 @@
           <button onclick="delete_side('{{ side_name | safe }}')" class="btn btn-danger">
             삭제하기
           </button>
-        </form>
     </div>
   </div>
 </div>
@@ -122,7 +120,6 @@
     }
     else {
     console.log("사용자가 삭제를 취소했습니다.");
-    window.location.href = "/side";
     }
   }
 </script>

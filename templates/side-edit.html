@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="card-body">
-      <form method="POST">
+
         {% for side_detail_group in side_detail %}
         <div class="row">
           <div class="col-md">
@@ -93,13 +93,48 @@
           </div>
           <div>
             <br>
-            <button type="submit" class="btn btn-primary">완료</button>
+            <button onclick="edit('{{ side_name | safe }}')" class="btn btn-primary">완료</button>
             <a href="/side/{{side_name}}" class="btn btn-info">취소</a>
           </div>
         </div>
-      </form>
+
     </div>
   </div>
 </div>
 <br>
+<script>
+  function edit(side_name) {
+    if (confirm("정말로 수정하시겠습니까?")) {
+      fetch(`/side/${side_name}/edit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          ingredient: document.querySelector('textarea[name="ingredient"]').value,
+          spice: document.querySelector('textarea[name="spice"]').value,
+          recipe: document.querySelector('textarea[name="recipe"]').value,
+          calorie: document.querySelector('input[name="calorie"]').value,
+          carbohydrate: document.querySelector('input[name="carbohydrate"]').value,
+          protein: document.querySelector('input[name="protein"]').value,
+          vitamin: document.querySelector('input[name="vitamin"]').value,
+        }),
+      })
+        .then((response) => {
+            if (response.status === 200) {
+              alert("잘가~");
+              window.location.href = `/side/${side_name}`;
+            } else {
+              alert("메뉴 수정 중 오류가 발생했습니다.");
+            }
+          })
+        .catch((error) => {
+          console.error("요소 등록 중 오류 발생: " + error);
+          windows.location.href = '/side/${side_name}/edit';
+        });
+    }
+    else {
+    }
+  }
+</script>
 {% endblock %}

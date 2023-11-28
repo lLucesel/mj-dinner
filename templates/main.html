@@ -1,46 +1,45 @@
-{% extends "base.html" %}
-{% block head %}
-<title>Dinner Lotto</title>
-    {{ super() }}
-{% endblock %}
-{% block content %}
-<div class="container">
-    <div class="card">
-        <div style="font-size:4vh;" class="card-header">
-            오늘의 메뉴 가챠
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md">
-                    <div class="card">
-                        <div style="font-size:3vh" class="card-header">
-                            반찬
+    {% extends "base.html" %}
+    {% block head %}
+    <title>Dinner Lotto</title>
+        {{ super() }}
+    {% endblock %}
+    {% block content %}
+    <div class="container">
+        <div class="card">
+            <div style="font-size:4vh;" class="card-header">
+                오늘의 메뉴 가챠
+            </div>
+            <div class="card-body">
+                <p style="font-size: 0.8vw;">※ 반찬부터 국까지 드래그 해서 복사 후, 메모장에 저장해 봅시다</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div style="font-size:3vh" class="card-header">
+                                반찬
+                            </div>
+                            <div style="font-size:2.5vh" class="card-body">
+                                 : {{ side_name }}
+                            </div>
                         </div>
-                        <div style="font-size:2.5vh" class="card-body">
-                            {{ side_name }}
+                        <br>
+                        <div class="card">
+                            <div style="font-size:3vh" class="card-header">
+                                국
+                            </div>
+                            <div style="font-size:2.5vh" class="card-body">
+                                 : {{ soup_name }}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md">
-                    <div class="card">
-                        <div style="font-size:3vh" class="card-header">
-                            국
-                        </div>
-                        <div style="font-size:2.5vh" class="card-body">
-                            {{ soup_name }}
-                        </div>
+                    <div class="col-md-6 text-center">
+                        <img src="/static/images/food-lotto.jpg" alt="Your Image">
                     </div>
                 </div>
             </div>
-        </div>
-        <form>
-            <span>
+            <form>
                 &nbsp;&nbsp;&nbsp;<button name="data" onclick="getData()" class="btn btn-primary">뽑기</button>
-            </span>
-        </form>
-        <br>
+            </form>
+            <br>
+        </div>
     </div>
-</div>
-<img src="/static/images/food-lotto.jpg" alt="Your Image">
-    <!-- 그림 하나 넣기 -->
-{% endblock %}
+    {% endblock %}

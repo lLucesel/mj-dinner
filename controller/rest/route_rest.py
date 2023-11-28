@@ -1,8 +1,7 @@
-import models
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import HTMLResponse
-from models import Food, FoodType
+from models import Food, FoodType, Todo
 from db.db_conn import db
 from MySQLdb.cursors import DictCursor
 from fastapi import APIRouter
@@ -176,7 +175,7 @@ async def update_soup_recipe(request: Request, soup_name: str,
         INNER JOIN food_type ON food.food_type_id = food_type.id
         SET ingredient = %s, spice = %s, recipe = %s,
         calorie = %s, carbohydrate = %s, protein = %s, vitamin = %s
-        WHERE name = %s and food_type = '반찬'
+        WHERE name = %s and food_type = '국'
         """
         _new = (ingredient, spice, recipe,
                 calorie, carbohydrate, protein, vitamin,
