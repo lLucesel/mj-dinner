@@ -21,7 +21,7 @@ class FoodDiet:
 
     def diet_set(self):
         try:
-            # 반찬 3개, 국 1개의 칼로리들의 합이 2000이상 2300이하가 될 때까지 무한 반복
+            # 반찬 3개, 국 1개의 칼로리들의 합이 500이상 800이하가 될 때까지 무한 반복
             while True:
                 # 반찬 3개 중복 안되게 칼로리, 영양성분, 이름을 리스트 안의 딕셔너리로 소환
                 _diet_side = self.food_choice.diet_side()
@@ -33,7 +33,7 @@ class FoodDiet:
                 # 만든 리스트에서 calorie에 해당하는 인덱스의 합 구하기
                 sum_cal = sum(food["calorie"] for food in _diet_set)
                 # 그 합이 다음 조건을 만족할 경우 초기화 하고 돌아가기
-                if not 2000 <= sum_cal <= 2300:
+                if not 500 <= sum_cal <= 800:
                     _diet_set = list()
                     continue
                 # 안 만족하면 _diet_set으로 돌아가기
