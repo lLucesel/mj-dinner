@@ -33,7 +33,7 @@ class FoodDiet:
                 # 만든 리스트에서 calorie에 해당하는 인덱스의 합 구하기
                 sum_cal = sum(food["calorie"] for food in _diet_set)
                 # 그 합이 다음 조건을 만족할 경우 초기화 하고 돌아가기
-                if not 500 <= sum_cal <= 800:
+                if not 650 <= sum_cal <= 800:
                     _diet_set = list()
                     continue
                 # 안 만족하면 _diet_set으로 돌아가기

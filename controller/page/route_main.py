@@ -171,6 +171,7 @@ async def add(request: Request,
         # return templates.TemplateResponse(name="/add-food.html", context={"request": request})
         return RedirectResponse('/add', status_code=status.HTTP_204_NO_CONTENT)
 
+
 @router.get("/food")
 async def food(request: Request, food_name: str = None):
     with request.app.state.pool.fetch(cursor_type=DictCursor) as cursor:
